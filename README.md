@@ -7,7 +7,7 @@ O Scrapinpy.py é uma ferramenta projetada para extrair informações específic
 ```bash
     pip install -r requirements.txt
 ```
-## como executar 
+## Como executar o projeto
 ```bash
     python main.py OR python3 main.py OR .sh/bat files
 ```
