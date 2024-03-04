@@ -11,8 +11,6 @@ O Scrapinpy.py é uma ferramenta projetada para extrair informações específic
 ```bash
     python main.py OR python3 main.py OR .sh/bat files
 ```
-## Licença
-- [MIT](./LICENCE.txt)
 
 ## Bibliotecas Utilizadas
 
