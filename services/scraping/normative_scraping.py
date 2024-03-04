@@ -12,6 +12,7 @@ base_url_page = (
 )
 
 
+# validation if have problems request on url
 async def safe_request(session, url):
     try:
         async with session.get(url) as response:
@@ -22,6 +23,7 @@ async def safe_request(session, url):
         return None
 
 
+# this method extract string with all amount normative
 async def extract_amount_normative(session, url):
     response_content = await safe_request(session, url)
     if response_content:
@@ -32,6 +34,7 @@ async def extract_amount_normative(session, url):
     return None
 
 
+# this method extrat url value from script in html and returns a list with this value
 async def extract_url_titles(session, url):
     response_content = await safe_request(session, url)
     if response_content:
@@ -51,11 +54,13 @@ async def extract_url_titles(session, url):
     return None
 
 
+# method get url normative and return list with all url normative
 async def get_url_normative(session, url):
     list_content_url_titles = await extract_url_titles(session, url)
     return list_content_url_titles if list_content_url_titles else None
 
 
+# method get number pages and return list with all url pages
 async def get_all_urls_pages(amount_pages):
     list_all_urls_pages = []
     for url_page in range(1, amount_pages + 1):
@@ -63,6 +68,7 @@ async def get_all_urls_pages(amount_pages):
     return list_all_urls_pages
 
 
+# method get number from string amount through regular expressions
 async def get_amount_normative(session, url):
     amount = await extract_amount_normative(session, url)
     if amount:
@@ -71,11 +77,13 @@ async def get_amount_normative(session, url):
     return None
 
 
+# get amount number pages and returns amount pages
 async def get_amount_pages(amount_normative):
     items_per_page = 20
     return math.ceil(amount_normative / items_per_page) if amount_normative else None
 
 
+# extract content normative and structure normative as a dict
 async def get_content_from_normative(session, url):
     response_content = await safe_request(session, url)
     if response_content:
@@ -120,6 +128,7 @@ async def get_content_from_normative(session, url):
     return None
 
 
+# extract content tables and structure as a list
 async def extract_table_data(table):
     content_from_tables = []
     rows_table = table.find_all('tr')[1:]
@@ -128,5 +137,3 @@ async def extract_table_data(table):
         row_content = [cell.text.strip() for cell in cells if cell.text.strip() != ""]
         content_from_tables.extend(row_content)
     return content_from_tables
-
-
