@@ -1,8 +1,9 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, PageElement
 import json
 import re
 import math
 import aiohttp
+from aiohttp import ClientSession
 
 # url base per page
 base_url_page = (
@@ -13,7 +14,7 @@ base_url_page = (
 
 
 # validation if have problems request on url
-async def safe_request(session, url):
+async def safe_request(session: ClientSession, url: str):
     try:
         async with session.get(url) as response:
             response.raise_for_status()
@@ -24,7 +25,7 @@ async def safe_request(session, url):
 
 
 # this method extract string with all amount normative
-async def extract_amount_normative(session, url):
+async def extract_amount_normative(session: ClientSession, url: str) -> str or None:
     response_content = await safe_request(session, url)
     if response_content:
         html_from_request = BeautifulSoup(response_content, "html.parser")
@@ -35,7 +36,7 @@ async def extract_amount_normative(session, url):
 
 
 # this method extrat url value from script in html and returns a list with this value
-async def extract_url_titles(session, url):
+async def extract_url_titles(session: ClientSession, url: str) -> list or None:
     response_content = await safe_request(session, url)
     if response_content:
         html_from_request = BeautifulSoup(response_content, "html.parser")
@@ -55,13 +56,13 @@ async def extract_url_titles(session, url):
 
 
 # method get url normative and return list with all url normative
-async def get_url_normative(session, url):
+async def get_url_normative(session: ClientSession, url: str) -> list or None:
     list_content_url_titles = await extract_url_titles(session, url)
     return list_content_url_titles if list_content_url_titles else None
 
 
 # method get number pages and return list with all url pages
-async def get_all_urls_pages(amount_pages):
+async def get_all_urls_pages(amount_pages: int) -> list:
     list_all_urls_pages = []
     for url_page in range(1, amount_pages + 1):
         list_all_urls_pages.append(base_url_page.format(url_page))
@@ -69,7 +70,7 @@ async def get_all_urls_pages(amount_pages):
 
 
 # method get number from string amount through regular expressions
-async def get_amount_normative(session, url):
+async def get_amount_normative(session: ClientSession, url: str) -> list or None:
     amount = await extract_amount_normative(session, url)
     if amount:
         get_amount_from_string = re.findall(r'\b\d+\b', amount)
@@ -78,13 +79,13 @@ async def get_amount_normative(session, url):
 
 
 # get amount number pages and returns amount pages
-async def get_amount_pages(amount_normative):
+async def get_amount_pages(amount_normative: int) -> int:
     items_per_page = 20
     return math.ceil(amount_normative / items_per_page) if amount_normative else None
 
 
 # extract content normative and structure normative as a dict
-async def get_content_from_normative(session, url):
+async def get_content_from_normative(session: ClientSession, url: str) -> dict or None:
     response_content = await safe_request(session, url)
     if response_content:
         html_from_response = BeautifulSoup(response_content, "html.parser")
@@ -129,7 +130,7 @@ async def get_content_from_normative(session, url):
 
 
 # extract content tables and structure as a list
-async def extract_table_data(table):
+async def extract_table_data(table) -> list:
     content_from_tables = []
     rows_table = table.find_all('tr')[1:]
     for row in rows_table:

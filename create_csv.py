@@ -29,7 +29,7 @@ def process_normative(item, result_queue):
     result_queue.put(normative_data)
 
 
-def process_normative_queue(input_queue, result_queue):
+def process_normative_queue(input_queue: Queue, result_queue: Queue) -> None:
     # Process the item queue
     while True:
         normative_item = input_queue.get()
@@ -39,7 +39,7 @@ def process_normative_queue(input_queue, result_queue):
         input_queue.task_done()
 
 
-async def convert_json_to_csv(json_file_path, csv_output_path):
+async def convert_json_to_csv(json_file_path: str, csv_output_path: str) -> None:
     try:
         with open(json_file_path, 'r') as json_file:
             normative_data = json.load(json_file)

@@ -6,7 +6,7 @@ queue = asyncio.Queue()
 
 
 # this method through a queue creates a list of normative urls and returns a list with structured data
-async def process_queue():
+async def process_queue() -> list:
     queue_normative = []
     while not queue.empty():
         get_queue = await queue.get()
