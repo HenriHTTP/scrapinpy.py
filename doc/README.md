@@ -19,11 +19,6 @@ A camada worker é responsável por armazenar os módulos específicos para work
 
 Por meio do módulo `main`, é processada uma série de funções responsáveis por obter de forma eficiente os dados necessários. Isso é feito por meio da função `get_amount_normative`, onde obtemos a quantidade total de normativos, uma informação crucial para calcular o número de páginas a serem processadas. A função `get_amount_pages` realiza esse cálculo, facilitando a subsequente geração das URLs de cada página de normativos por meio da função `get_all_urls_pages`. O componente central, a função `worker`, é encarregado da raspagem de dados de uma página específica, coletando as informações relevantes. Por fim, a função `process_queue` é essencial para realizar operações pós-raspagem na fila de normativos, finalizando o processo de maneira ordenada.
 
-### Criação do JSON e CSV Estruturado
-
-Após a conclusão do processo de raspagem de dados e a coleta das informações de normativos através das funções mencionadas, a função principal `main()` adiciona os resultados em uma estrutura de dados chamada `content_from_normative`. Essa estrutura contém as informações processadas de cada normativo, sendo então convertida em um arquivo JSON denominado 'normatives.json' utilizando a biblioteca json.
-
-
 ### Criação do json e csv estrutarado 
 
 Após a conclusão do processo de raspagem de dados e a coleta das informações de normativos através das funções mencionadas, a função principal ```main()``` adiciona os resultados em uma estrutura de dados chamada ```content_from_normative```. Essa estrutura contém as informações processadas de cada normativo, é então convertida em um arquivo JSON denominado 'normatives.json' utilizando a biblioteca json.
